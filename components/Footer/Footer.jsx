@@ -4,7 +4,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <footer className={ibm_plex_mono.className}>
-        <p className='text-sm'>{"Made with 💚 by Vishal Kashi"}</p>
+        <p className='text-sm'>{"Made by Vishal Kashi"}</p>
     </footer>
   )
 }

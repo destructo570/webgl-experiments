@@ -1,40 +1,17 @@
 "use client"
-import React, { useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-
-function Box(props) {
-  // This reference will give us direct access to the mesh
-  const meshRef = useRef()
-  // Set up state for the hovered and active state
-  const [hovered, setHover] = useState(false)
-  const [active, setActive] = useState(false)
-  // Subscribe this component to the render-loop, rotate the mesh every frame
-  useFrame((state, delta) => (meshRef.current.rotation.x += delta))
-  // Return view, these are regular three.js elements expressed in JSX
-  return (
-    <mesh
-      {...props}
-      ref={meshRef}
-      scale={active ? 1.5 : 1}
-      onClick={(event) => setActive(!active)}
-      onPointerOver={(event) => setHover(true)}
-      onPointerOut={(event) => setHover(false)}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
-    </mesh>
-  )
-}
+import React from "react";
+import { pixelify_sans } from "../fonts/fonts";
+import ExperimentList from "@/components/experimentList/ExperimentList";
+import Footer from "@/components/Footer/Footer";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h2>This is the home page</h2>
-      <Canvas>
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} />
-      </Canvas>
+    <main className={`${pixelify_sans.className} flex min-h-screen max-w-screen-lg flex-col items-center justify-between p-16 mx-auto`}>
+      <div className="flex items-center w-full flex-col">
+        <h1 className="text-4xl mt-160">{"webgl experiments"}</h1>
+        <ExperimentList/>
+      </div>
+      <Footer/>
     </main>
   );
 }

@@ -2,11 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
-    background-color: #0b0c0f;
-    color: #ffffff;
+:root {
+  background-color: #0b0c0f;
+  color: #ffffff;
 }
 
 h1 {
-    font-family: var(--pixelify-mono);
-  }
+  font-family: var(--pixelify-mono);
+}
+
+.responsive-grid {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}

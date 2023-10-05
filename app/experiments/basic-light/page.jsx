@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
+import CanvasWrapper from "@/components/canvasWrapper/CanvasWrapper";
 
 function Box(props) {
   // This reference will give us direct access to the mesh
@@ -28,12 +29,14 @@ function Box(props) {
 
 const BasicLight = () => {
   return (
-    <Canvas>
-      <ambientLight />
-      <pointLight position={[10, 10, 10]} />
-      <Box position={[-1.2, 0, 0]} />
-      <Box position={[1.2, 0, 0]} />
-    </Canvas>
+    <CanvasWrapper>
+      <Canvas>
+        <ambientLight />
+        <pointLight position={[10, 10, 10]} />
+        <Box position={[-1.2, 0, 0]} />
+        <Box position={[1.2, 0, 0]} />
+      </Canvas>      
+    </CanvasWrapper>
   );
 };
 

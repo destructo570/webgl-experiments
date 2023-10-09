@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import CanvasWrapper from "@/components/canvasWrapper/CanvasWrapper";
 import { OrbitControls } from "@react-three/drei";
 
@@ -32,11 +32,13 @@ function Box(props) {
 const BasicLight = () => {
   return (
     <CanvasWrapper>
-      <Canvas gl={{
-        antialias: true
-      }}>
+      <Canvas
+        gl={{
+          antialias: true,
+        }}
+      >
         <OrbitControls />
-        <ambientLight/>
+        <ambientLight />
         <pointLight position={[10, 10, 10]} />
         <Box position={[-1.2, 0, 0]} />
         <Box position={[1.2, 0, 0]} />

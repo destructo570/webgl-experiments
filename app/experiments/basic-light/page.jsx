@@ -4,8 +4,9 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import CanvasWrapper from "@/components/canvasWrapper/CanvasWrapper";
 import { OrbitControls } from "@react-three/drei";
 import { DoubleSide } from "three";
+import { useControls } from "leva";
 
-function GetShapes(props) {
+function GetShapes() {
   const cube_ref = useRef(null);
   const sphere_ref = useRef(null);
   const torus_ref = useRef(null);
@@ -43,18 +44,41 @@ function GetShapes(props) {
   );
 }
 
+const DirectionalLight = () => {
+  const { dir_position, dir_intensity, dir_enabled, dir_color } = useControls(
+    "Directional Light",
+    {
+      dir_enabled: true,
+      dir_intensity: {
+        value: 1.0,
+        min: 0,
+        max: 100,
+        step: 0.1,
+      },
+      dir_color: "white",
+      dir_position: {
+        x: 10,
+        y: 10,
+        z: 10,
+      },
+    }
+  );
+  return (
+    <directionalLight
+      position={[dir_position.x, dir_position.y, dir_position.z]}
+      intensity={dir_intensity}
+      isDirectionalLight={dir_enabled}
+      color={dir_color}
+    />
+  );
+};
+
 const BasicLight = () => {
   return (
     <CanvasWrapper>
-      <Canvas
-        gl={{
-          antialias: true,
-        }}
-      >
+      <Canvas>
         <OrbitControls />
-        {/* <ambientLight /> */}
-        {/* <pointLight position={[10, 10, 10]} /> */}
-        <directionalLight position={[10, 10, 10]} />
+        <DirectionalLight />
         <GetShapes />
         <mesh position={[5, -10, 0]} rotation={[300, 0, 0]}>
           <planeGeometry args={[50, 50]} />

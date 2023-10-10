@@ -3,29 +3,43 @@ import React, { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import CanvasWrapper from "@/components/canvasWrapper/CanvasWrapper";
 import { OrbitControls } from "@react-three/drei";
+import { DoubleSide } from "three";
 
-function Box(props) {
-  // This reference will give us direct access to the mesh
-  const meshRef = useRef();
+function GetShapes(props) {
+  const cube_ref = useRef(null);
+  const sphere_ref = useRef(null);
+  const torus_ref = useRef(null);
+  const torus_knot_ref = useRef(null);
 
-  // Set up state for the hovered and active state
-  const [hovered, setHover] = useState(false);
-  const [active, setActive] = useState(false);
-  // Subscribe this component to the render-loop, rotate the mesh every frame
-  useFrame((state, delta) => (meshRef.current.rotation.x += delta));
-  // Return view, these are regular three.js elements expressed in JSX
+  const renderMaterial = (props) => {
+    return <meshStandardMaterial {...props} />;
+  };
+
+  useFrame((state, delta) => {
+    cube_ref.current.rotation.x += delta * 0.5;
+    sphere_ref.current.rotation.x += delta * 0.5;
+    torus_ref.current.rotation.x += delta * 0.5;
+    torus_knot_ref.current.rotation.x += delta * 0.5;
+  });
   return (
-    <mesh
-      {...props}
-      ref={meshRef}
-      scale={active ? 1.5 : 1}
-      onClick={(event) => setActive(!active)}
-      onPointerOver={(event) => setHover(true)}
-      onPointerOut={(event) => setHover(false)}
-    >
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
-    </mesh>
+    <>
+      <mesh ref={cube_ref} position={[-10, 0, 0]}>
+        <boxGeometry args={[6, 6, 6]} />
+        {renderMaterial()}
+      </mesh>
+      <mesh ref={sphere_ref} position={[0, 0, 0]}>
+        <sphereGeometry args={[4, 32, 64]} />
+        {renderMaterial()}
+      </mesh>
+      <mesh ref={torus_ref} position={[10, 0, 0]}>
+        <torusGeometry args={[2.5, 1, 16, 50]} />
+        {renderMaterial()}
+      </mesh>
+      <mesh ref={torus_knot_ref} position={[20, 0, 0]}>
+        <torusKnotGeometry args={[2, 1, 100, 16]} />
+        {renderMaterial()}
+      </mesh>
+    </>
   );
 }
 
@@ -38,10 +52,14 @@ const BasicLight = () => {
         }}
       >
         <OrbitControls />
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} />
+        {/* <ambientLight /> */}
+        {/* <pointLight position={[10, 10, 10]} /> */}
+        <directionalLight position={[10, 10, 10]} />
+        <GetShapes />
+        <mesh position={[5, -10, 0]} rotation={[300, 0, 0]}>
+          <planeGeometry args={[50, 50]} />
+          <meshStandardMaterial side={DoubleSide} />
+        </mesh>
       </Canvas>
     </CanvasWrapper>
   );

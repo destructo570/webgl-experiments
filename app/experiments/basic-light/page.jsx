@@ -74,24 +74,21 @@ const DirectionalLight = () => {
 };
 
 const PointLight = () => {
-  const { position, intensity, enabled, color } = useControls(
-    "Point Light",
-    {
-      enabled: false,
-      intensity: {
-        value: 1.0,
-        min: 0,
-        max: 100,
-        step: 0.1,
-      },
-      color: "white",
-      position: {
-        x: 10,
-        y: 10,
-        z: 10,
-      },
-    }
-  );
+  const { position, intensity, enabled, color } = useControls("Point Light", {
+    enabled: false,
+    intensity: {
+      value: 1.0,
+      min: 0,
+      max: 100,
+      step: 0.1,
+    },
+    color: "white",
+    position: {
+      x: 10,
+      y: 10,
+      z: 10,
+    },
+  });
   return (
     <pointLight
       position={[position.x, position.y, position.z]}
@@ -103,8 +100,28 @@ const PointLight = () => {
 };
 
 const AmbientLight = () => {
-  const { intensity, enabled, color } = useControls(
-    "Ambient Light",
+  const { intensity, enabled, color } = useControls("Ambient Light", {
+    enabled: false,
+    intensity: {
+      value: 1.0,
+      min: 0,
+      max: 100,
+      step: 0.1,
+    },
+    color: "white",
+  });
+  return (
+    <ambientLight
+      intensity={intensity}
+      isAmbientLight={enabled}
+      color={color}
+    />
+  );
+};
+
+const HemiSphereLight = () => {
+  const { intensity, enabled, color, ground_color, position } = useControls(
+    "HemiSphere Light",
     {
       enabled: false,
       intensity: {
@@ -113,13 +130,21 @@ const AmbientLight = () => {
         max: 100,
         step: 0.1,
       },
-      color: "white",
+      color: "#f44369",
+      ground_color: "#413d9a",
+      position: {
+        x: 10,
+        y: 10,
+        z: 10,
+      },
     }
   );
   return (
-    <ambientLight
+    <hemisphereLight
       intensity={intensity}
-      isAmbientLight={enabled}
+      isHemisphereLight={enabled}
+      position={[position.x, position.y, position.z]}
+      groundColor={ground_color}
       color={color}
     />
   );
@@ -133,6 +158,7 @@ const BasicLight = () => {
         <DirectionalLight />
         <PointLight />
         <AmbientLight />
+        <HemiSphereLight />
         <GetShapes />
         <mesh position={[5, -10, 0]} rotation={[300, 0, 0]}>
           <planeGeometry args={[50, 50]} />

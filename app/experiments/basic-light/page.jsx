@@ -12,18 +12,15 @@ function GetShapes() {
   const torus_ref = useRef(null);
   const torus_knot_ref = useRef(null);
 
-  const { rotation_speed, wireframe } = useControls(
-    "Shapes",
-    {
-      rotation_speed: {
-        value: 0.5,
-        min: -10,
-        max: 10,
-        step: 0.1
-      },
-      wireframe: false,
-    }
-  );
+  const { rotation_speed, wireframe } = useControls("Shapes", {
+    rotation_speed: {
+      value: 0.5,
+      min: -10,
+      max: 10,
+      step: 0.1,
+    },
+    wireframe: false,
+  });
 
   const renderMaterial = (props) => {
     return <meshStandardMaterial {...props} wireframe={wireframe} />;
@@ -87,22 +84,25 @@ const DirectionalLight = () => {
 };
 
 const PointLight = () => {
-  const { position, intensity, enabled, color } = useControls("Point Light", {
-    enabled: false,
-    intensity: {
-      value: 1.0,
-      min: 0,
-      max: 100,
-      step: 0.1,
+  const { position, intensity, enabled, color } = useControls(
+    "Point Light",
+    {
+      enabled: false,
+      intensity: {
+        value: 1.0,
+        min: 0,
+        max: 100,
+        step: 0.1,
+      },
+      color: "white",
+      position: {
+        x: 10,
+        y: 10,
+        z: 10,
+      },
     },
-    color: "white",
-    position: {
-      x: 10,
-      y: 10,
-      z: 10,
-    },
-  },
-  {collapsed: true});
+    { collapsed: true }
+  );
   return (
     <pointLight
       position={[position.x, position.y, position.z]}
@@ -114,17 +114,20 @@ const PointLight = () => {
 };
 
 const AmbientLight = () => {
-  const { intensity, enabled, color } = useControls("Ambient Light", {
-    enabled: false,
-    intensity: {
-      value: 1.0,
-      min: 0,
-      max: 100,
-      step: 0.1,
+  const { intensity, enabled, color } = useControls(
+    "Ambient Light",
+    {
+      enabled: false,
+      intensity: {
+        value: 1.0,
+        min: 0,
+        max: 100,
+        step: 0.1,
+      },
+      color: "white",
     },
-    color: "white",
-  },
-  {collapsed: true});
+    { collapsed: true }
+  );
   return (
     <ambientLight
       intensity={intensity}
@@ -153,7 +156,7 @@ const HemiSphereLight = () => {
         z: 10,
       },
     },
-    {collapsed: true}
+    { collapsed: true }
   );
   return (
     <hemisphereLight
@@ -162,7 +165,36 @@ const HemiSphereLight = () => {
       position={[position.x, position.y, position.z]}
       groundColor={ground_color}
       color={color}
-      
+    />
+  );
+};
+
+const SpotLight = () => {
+  const { intensity, enabled, color, position } = useControls(
+    "Spot Light",
+    {
+      enabled: false,
+      intensity: {
+        value: 1.0,
+        min: 0,
+        max: 100,
+        step: 0.1,
+      },
+      color: "#f44369",
+      position: {
+        x: 10,
+        y: 10,
+        z: 10,
+      },
+    },
+    { collapsed: true }
+  );
+  return (
+    <spotLight
+      intensity={intensity}
+      isSpotLight={enabled}
+      position={[position.x, position.y, position.z]}
+      color={color}
     />
   );
 };
@@ -181,6 +213,7 @@ const BasicLight = () => {
         <PointLight />
         <AmbientLight />
         <HemiSphereLight />
+        <SpotLight />
       </Canvas>
     </CanvasWrapper>
   );

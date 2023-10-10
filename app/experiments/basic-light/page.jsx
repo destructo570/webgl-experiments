@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import CanvasWrapper from "@/components/canvasWrapper/CanvasWrapper";
 import { OrbitControls, useHelper } from "@react-three/drei";
@@ -8,9 +8,9 @@ import {
   DoubleSide,
   HemisphereLightHelper,
   PointLightHelper,
-  SpotLightHelper,
 } from "three";
 import { useControls } from "leva";
+import { MATERIAL } from "@/constant/three_constants";
 
 function GetShapes() {
   const cube_ref = useRef(null);
@@ -18,7 +18,7 @@ function GetShapes() {
   const torus_ref = useRef(null);
   const torus_knot_ref = useRef(null);
 
-  const { rotation_speed, wireframe } = useControls("Shapes", {
+  const { rotation_speed, wireframe, material, roughness, metalness} = useControls("Shapes", {
     rotation_speed: {
       value: 0.5,
       min: -10,
@@ -26,10 +26,67 @@ function GetShapes() {
       step: 0.1,
     },
     wireframe: false,
+    material: {
+      options: Object.values(MATERIAL),
+    },
+    roughness: {
+      value: 30,
+      min: 0,
+      max: 100,
+      step: 0.1,
+    },
+    metalness: {
+      value: 0,
+      min: 0,
+      max: 100,
+      step: 0.1,
+    },
   });
 
   const renderMaterial = (props) => {
-    return <meshStandardMaterial {...props} wireframe={wireframe} />;
+    switch (material) {
+      case MATERIAL.MESH_BASIC:
+        return <meshBasicMaterial {...props} wireframe={wireframe} />;
+      case MATERIAL.MESH_DEPTH:
+        return <meshDepthMaterial {...props} wireframe={wireframe} />;
+      case MATERIAL.MESH_LAMBERT:
+        return <meshLambertMaterial {...props} wireframe={wireframe} />;
+      case MATERIAL.MESH_MATCAP:
+        return <meshMatcapMaterial {...props} wireframe={wireframe} />;
+      case MATERIAL.MESH_NORMAL:
+        return <meshNormalMaterial {...props} wireframe={wireframe} />;
+      case MATERIAL.MESH_PHONG:
+        return <meshPhongMaterial {...props} wireframe={wireframe} />;
+      case MATERIAL.MESH_PHYSICAL:
+        return (
+          <meshPhysicalMaterial
+            {...props}
+            wireframe={wireframe}
+            roughness={roughness}
+            metalness={metalness}
+          />
+        );
+      case MATERIAL.MESH_STANDARD:
+        return (
+          <meshStandardMaterial
+            {...props}
+            wireframe={wireframe}
+            roughness={roughness}
+            metalness={metalness}
+          />
+        );
+      case MATERIAL.MESH_TOON:
+        return <meshToonMaterial {...props} wireframe={wireframe} />;
+      default:
+        return (
+          <meshStandardMaterial
+            {...props}
+            wireframe={wireframe}
+            roughness={roughness}
+            metalness={metalness}
+          />
+        );
+    }
   };
 
   useFrame((state, delta) => {

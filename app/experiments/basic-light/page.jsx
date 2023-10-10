@@ -232,7 +232,11 @@ const RectAreaLight = () => {
 const BasicLight = () => {
   return (
     <CanvasWrapper>
-      <Canvas>
+      <Canvas
+        camera={{
+          position: [50, 20, 40],
+        }}
+      >
         <GetShapes />
         <mesh position={[5, -10, 0]} rotation={[300, 0, 0]}>
           <planeGeometry args={[50, 50]} />

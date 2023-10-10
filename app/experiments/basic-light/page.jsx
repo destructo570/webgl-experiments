@@ -84,7 +84,7 @@ const DirectionalLight = () => {
 };
 
 const PointLight = () => {
-  const { position, intensity, enabled, color } = useControls(
+  const { position, intensity, enabled, color, decay } = useControls(
     "Point Light",
     {
       enabled: false,
@@ -100,6 +100,12 @@ const PointLight = () => {
         y: 10,
         z: 10,
       },
+      decay: {
+        value: 0.6,
+        min: -2,
+        max: 2,
+        step: 0.01,
+      }
     },
     { collapsed: true }
   );
@@ -109,6 +115,7 @@ const PointLight = () => {
       intensity={intensity}
       isLight={enabled}
       color={color}
+      decay={decay}
     />
   );
 };

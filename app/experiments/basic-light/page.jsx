@@ -45,18 +45,18 @@ function GetShapes() {
 }
 
 const DirectionalLight = () => {
-  const { dir_position, dir_intensity, dir_enabled, dir_color } = useControls(
+  const { position, intensity, enabled, color } = useControls(
     "Directional Light",
     {
-      dir_enabled: true,
-      dir_intensity: {
+      enabled: true,
+      intensity: {
         value: 1.0,
         min: 0,
         max: 100,
         step: 0.1,
       },
-      dir_color: "white",
-      dir_position: {
+      color: "white",
+      position: {
         x: 10,
         y: 10,
         z: 10,
@@ -65,10 +65,39 @@ const DirectionalLight = () => {
   );
   return (
     <directionalLight
-      position={[dir_position.x, dir_position.y, dir_position.z]}
-      intensity={dir_intensity}
-      isDirectionalLight={dir_enabled}
-      color={dir_color}
+      position={[position.x, position.y, position.z]}
+      intensity={intensity}
+      isDirectionalLight={enabled}
+      color={color}
+    />
+  );
+};
+
+const PointLight = () => {
+  const { position, intensity, enabled, color } = useControls(
+    "Point Light",
+    {
+      enabled: false,
+      intensity: {
+        value: 1.0,
+        min: 0,
+        max: 100,
+        step: 0.1,
+      },
+      color: "white",
+      position: {
+        x: 10,
+        y: 10,
+        z: 10,
+      },
+    }
+  );
+  return (
+    <pointLight
+      position={[position.x, position.y, position.z]}
+      intensity={intensity}
+      isLight={enabled}
+      color={color}
     />
   );
 };
@@ -79,6 +108,7 @@ const BasicLight = () => {
       <Canvas>
         <OrbitControls />
         <DirectionalLight />
+        <PointLight />
         <GetShapes />
         <mesh position={[5, -10, 0]} rotation={[300, 0, 0]}>
           <planeGeometry args={[50, 50]} />

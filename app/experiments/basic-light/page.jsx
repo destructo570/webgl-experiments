@@ -2,8 +2,14 @@
 import React, { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import CanvasWrapper from "@/components/canvasWrapper/CanvasWrapper";
-import { OrbitControls } from "@react-three/drei";
-import { DoubleSide } from "three";
+import { OrbitControls, useHelper } from "@react-three/drei";
+import {
+  DirectionalLightHelper,
+  DoubleSide,
+  HemisphereLightHelper,
+  PointLightHelper,
+  SpotLightHelper,
+} from "three";
 import { useControls } from "leva";
 
 function GetShapes() {
@@ -55,7 +61,9 @@ function GetShapes() {
 }
 
 const DirectionalLight = () => {
-  const { position, intensity, enabled, color } = useControls(
+  const light_ref = useRef(null);
+
+  const { position, intensity, enabled, color, helper } = useControls(
     "Directional Light",
     {
       enabled: true,
@@ -71,20 +79,28 @@ const DirectionalLight = () => {
         y: 10,
         z: 10,
       },
+      helper: false,
     }
   );
+
+  useHelper(helper && light_ref, DirectionalLightHelper, 3, "yellow");
+
   return (
-    <directionalLight
-      position={[position.x, position.y, position.z]}
-      intensity={intensity}
-      isDirectionalLight={enabled}
-      color={color}
-    />
+    <>
+      <directionalLight
+        ref={light_ref}
+        position={[position.x, position.y, position.z]}
+        intensity={intensity}
+        isDirectionalLight={enabled}
+        color={color}
+      />
+    </>
   );
 };
 
 const PointLight = () => {
-  const { position, intensity, enabled, color, decay } = useControls(
+  const light_ref = useRef(null);
+  const { position, intensity, enabled, color, decay, helper } = useControls(
     "Point Light",
     {
       enabled: false,
@@ -105,12 +121,17 @@ const PointLight = () => {
         min: -2,
         max: 2,
         step: 0.01,
-      }
+      },
+      helper: false,
     },
     { collapsed: true }
   );
+
+  useHelper(helper && light_ref, PointLightHelper, 3, "yellow");
+
   return (
     <pointLight
+      ref={light_ref}
       position={[position.x, position.y, position.z]}
       intensity={intensity}
       isLight={enabled}
@@ -145,28 +166,33 @@ const AmbientLight = () => {
 };
 
 const HemiSphereLight = () => {
-  const { intensity, enabled, color, ground_color, position } = useControls(
-    "HemiSphere Light",
-    {
-      enabled: false,
-      intensity: {
-        value: 1.0,
-        min: 0,
-        max: 100,
-        step: 0.1,
+  const light_ref = useRef(null);
+  const { intensity, enabled, color, ground_color, position, helper } =
+    useControls(
+      "HemiSphere Light",
+      {
+        enabled: false,
+        intensity: {
+          value: 1.0,
+          min: 0,
+          max: 100,
+          step: 0.1,
+        },
+        color: "#f44369",
+        ground_color: "#413d9a",
+        position: {
+          x: 10,
+          y: 10,
+          z: 10,
+        },
+        helper: false,
       },
-      color: "#f44369",
-      ground_color: "#413d9a",
-      position: {
-        x: 10,
-        y: 10,
-        z: 10,
-      },
-    },
-    { collapsed: true }
-  );
+      { collapsed: true }
+    );
+  useHelper(helper && light_ref, HemisphereLightHelper, 3, "yellow");
   return (
     <hemisphereLight
+      ref={light_ref}
       intensity={intensity}
       isHemisphereLight={enabled}
       position={[position.x, position.y, position.z]}
@@ -177,7 +203,8 @@ const HemiSphereLight = () => {
 };
 
 const SpotLight = () => {
-  const { intensity, enabled, color, position } = useControls(
+  const light_ref = useRef(null);
+  const { intensity, enabled, color, position, helper } = useControls(
     "Spot Light",
     {
       enabled: false,
@@ -193,11 +220,14 @@ const SpotLight = () => {
         y: 10,
         z: 10,
       },
+      helper: false,
     },
     { collapsed: true }
   );
+  useHelper(helper && light_ref, HemisphereLightHelper, 3, "yellow");
   return (
     <spotLight
+      ref={light_ref}
       intensity={intensity}
       isSpotLight={enabled}
       position={[position.x, position.y, position.z]}

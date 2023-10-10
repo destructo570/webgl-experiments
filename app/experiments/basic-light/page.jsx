@@ -102,6 +102,29 @@ const PointLight = () => {
   );
 };
 
+const AmbientLight = () => {
+  const { intensity, enabled, color } = useControls(
+    "Ambient Light",
+    {
+      enabled: false,
+      intensity: {
+        value: 1.0,
+        min: 0,
+        max: 100,
+        step: 0.1,
+      },
+      color: "white",
+    }
+  );
+  return (
+    <ambientLight
+      intensity={intensity}
+      isAmbientLight={enabled}
+      color={color}
+    />
+  );
+};
+
 const BasicLight = () => {
   return (
     <CanvasWrapper>
@@ -109,6 +132,7 @@ const BasicLight = () => {
         <OrbitControls />
         <DirectionalLight />
         <PointLight />
+        <AmbientLight />
         <GetShapes />
         <mesh position={[5, -10, 0]} rotation={[300, 0, 0]}>
           <planeGeometry args={[50, 50]} />

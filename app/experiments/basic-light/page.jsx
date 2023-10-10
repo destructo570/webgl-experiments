@@ -12,15 +12,28 @@ function GetShapes() {
   const torus_ref = useRef(null);
   const torus_knot_ref = useRef(null);
 
+  const { rotation_speed, wireframe } = useControls(
+    "Shapes",
+    {
+      rotation_speed: {
+        value: 0.5,
+        min: -10,
+        max: 10,
+        step: 0.1
+      },
+      wireframe: false,
+    }
+  );
+
   const renderMaterial = (props) => {
-    return <meshStandardMaterial {...props} />;
+    return <meshStandardMaterial {...props} wireframe={wireframe} />;
   };
 
   useFrame((state, delta) => {
-    cube_ref.current.rotation.x += delta * 0.5;
-    sphere_ref.current.rotation.x += delta * 0.5;
-    torus_ref.current.rotation.x += delta * 0.5;
-    torus_knot_ref.current.rotation.x += delta * 0.5;
+    cube_ref.current.rotation.x += delta * rotation_speed;
+    sphere_ref.current.rotation.x += delta * rotation_speed;
+    torus_ref.current.rotation.x += delta * rotation_speed;
+    torus_knot_ref.current.rotation.x += delta * rotation_speed;
   });
   return (
     <>
@@ -88,7 +101,8 @@ const PointLight = () => {
       y: 10,
       z: 10,
     },
-  });
+  },
+  {collapsed: true});
   return (
     <pointLight
       position={[position.x, position.y, position.z]}
@@ -109,7 +123,8 @@ const AmbientLight = () => {
       step: 0.1,
     },
     color: "white",
-  });
+  },
+  {collapsed: true});
   return (
     <ambientLight
       intensity={intensity}
@@ -137,7 +152,8 @@ const HemiSphereLight = () => {
         y: 10,
         z: 10,
       },
-    }
+    },
+    {collapsed: true}
   );
   return (
     <hemisphereLight
@@ -146,6 +162,7 @@ const HemiSphereLight = () => {
       position={[position.x, position.y, position.z]}
       groundColor={ground_color}
       color={color}
+      
     />
   );
 };
@@ -154,16 +171,16 @@ const BasicLight = () => {
   return (
     <CanvasWrapper>
       <Canvas>
-        <OrbitControls />
-        <DirectionalLight />
-        <PointLight />
-        <AmbientLight />
-        <HemiSphereLight />
         <GetShapes />
         <mesh position={[5, -10, 0]} rotation={[300, 0, 0]}>
           <planeGeometry args={[50, 50]} />
           <meshStandardMaterial side={DoubleSide} />
         </mesh>
+        <OrbitControls />
+        <DirectionalLight />
+        <PointLight />
+        <AmbientLight />
+        <HemiSphereLight />
       </Canvas>
     </CanvasWrapper>
   );

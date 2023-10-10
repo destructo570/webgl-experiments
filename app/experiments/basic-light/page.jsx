@@ -180,7 +180,7 @@ const SpotLight = () => {
         max: 100,
         step: 0.1,
       },
-      color: "#f44369",
+      color: "white",
       position: {
         x: 10,
         y: 10,
@@ -193,6 +193,36 @@ const SpotLight = () => {
     <spotLight
       intensity={intensity}
       isSpotLight={enabled}
+      position={[position.x, position.y, position.z]}
+      color={color}
+    />
+  );
+};
+
+const RectAreaLight = () => {
+  const { intensity, enabled, color, position } = useControls(
+    "React Area Light",
+    {
+      enabled: false,
+      intensity: {
+        value: 1.0,
+        min: 0,
+        max: 100,
+        step: 0.1,
+      },
+      color: "white",
+      position: {
+        x: 10,
+        y: 10,
+        z: 10,
+      },
+    },
+    { collapsed: true }
+  );
+  return (
+    <rectAreaLight
+      intensity={intensity}
+      isRectAreaLight={enabled}
       position={[position.x, position.y, position.z]}
       color={color}
     />
@@ -214,6 +244,7 @@ const BasicLight = () => {
         <AmbientLight />
         <HemiSphereLight />
         <SpotLight />
+        <RectAreaLight />
       </Canvas>
     </CanvasWrapper>
   );

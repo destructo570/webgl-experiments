@@ -11,6 +11,7 @@ import {
 } from "three";
 import { useControls } from "leva";
 import { MATERIAL } from "@/constant/three_constants";
+import { Perf } from 'r3f-perf';
 
 function GetShapes() {
   const cube_ref = useRef(null);
@@ -343,6 +344,7 @@ const BasicLight = () => {
         <HemiSphereLight />
         <SpotLight />
         <RectAreaLight />
+        <Perf position="top-left"/>
       </Canvas>
     </CanvasWrapper>
   );

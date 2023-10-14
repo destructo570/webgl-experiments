@@ -20,30 +20,34 @@ function GetShapes() {
   const torus_knot_ref = useRef(null);
 
   const { rotation_speed, wireframe, material, roughness, metalness } =
-    useControls("Shapes", {
-      rotation_speed: {
-        value: 0.5,
-        min: -10,
-        max: 10,
-        step: 0.1,
+    useControls(
+      "Shapes",
+      {
+        rotation_speed: {
+          value: 0.5,
+          min: -10,
+          max: 10,
+          step: 0.1,
+        },
+        wireframe: false,
+        material: {
+          options: Object.values(MATERIAL),
+        },
+        roughness: {
+          value: 30,
+          min: 0,
+          max: 100,
+          step: 0.1,
+        },
+        metalness: {
+          value: 0,
+          min: 0,
+          max: 100,
+          step: 0.1,
+        },
       },
-      wireframe: false,
-      material: {
-        options: Object.values(MATERIAL),
-      },
-      roughness: {
-        value: 30,
-        min: 0,
-        max: 100,
-        step: 0.1,
-      },
-      metalness: {
-        value: 0,
-        min: 0,
-        max: 100,
-        step: 0.1,
-      },
-    });
+      { collapsed: true }
+    );
 
   const renderMaterial = (props) => {
     switch (material) {
@@ -139,7 +143,8 @@ const DirectionalLight = () => {
         z: 10,
       },
       helper: false,
-    }
+    },
+    { collapsed: true }
   );
 
   useHelper(helper && light_ref, DirectionalLightHelper, 3, "yellow");

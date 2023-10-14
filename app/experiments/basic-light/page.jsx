@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import CanvasWrapper from "@/components/canvasWrapper/CanvasWrapper";
-import { OrbitControls, useHelper } from "@react-three/drei";
+import { Center, OrbitControls, useHelper } from "@react-three/drei";
 import {
   DirectionalLightHelper,
   DoubleSide,
@@ -11,7 +11,7 @@ import {
 } from "three";
 import { useControls } from "leva";
 import { MATERIAL } from "@/constant/three_constants";
-import { Perf } from 'r3f-perf';
+import { Perf } from "r3f-perf";
 
 function GetShapes() {
   const cube_ref = useRef(null);
@@ -19,30 +19,31 @@ function GetShapes() {
   const torus_ref = useRef(null);
   const torus_knot_ref = useRef(null);
 
-  const { rotation_speed, wireframe, material, roughness, metalness} = useControls("Shapes", {
-    rotation_speed: {
-      value: 0.5,
-      min: -10,
-      max: 10,
-      step: 0.1,
-    },
-    wireframe: false,
-    material: {
-      options: Object.values(MATERIAL),
-    },
-    roughness: {
-      value: 30,
-      min: 0,
-      max: 100,
-      step: 0.1,
-    },
-    metalness: {
-      value: 0,
-      min: 0,
-      max: 100,
-      step: 0.1,
-    },
-  });
+  const { rotation_speed, wireframe, material, roughness, metalness } =
+    useControls("Shapes", {
+      rotation_speed: {
+        value: 0.5,
+        min: -10,
+        max: 10,
+        step: 0.1,
+      },
+      wireframe: false,
+      material: {
+        options: Object.values(MATERIAL),
+      },
+      roughness: {
+        value: 30,
+        min: 0,
+        max: 100,
+        step: 0.1,
+      },
+      metalness: {
+        value: 0,
+        min: 0,
+        max: 100,
+        step: 0.1,
+      },
+    });
 
   const renderMaterial = (props) => {
     switch (material) {
@@ -332,19 +333,21 @@ const BasicLight = () => {
           position: [50, 20, 40],
         }}
       >
-        <GetShapes />
-        <mesh position={[5, -10, 0]} rotation={[300, 0, 0]}>
-          <planeGeometry args={[50, 50]} />
-          <meshStandardMaterial side={DoubleSide} />
-        </mesh>
-        <OrbitControls />
-        <DirectionalLight />
-        <PointLight />
-        <AmbientLight />
-        <HemiSphereLight />
-        <SpotLight />
-        <RectAreaLight />
-        <Perf position="top-left"/>
+        <Center>
+          <GetShapes />
+          <mesh position={[5, -10, 0]} rotation={[300, 0, 0]}>
+            <planeGeometry args={[50, 50]} />
+            <meshStandardMaterial side={DoubleSide} />
+          </mesh>
+          <OrbitControls />
+          <DirectionalLight />
+          <PointLight />
+          <AmbientLight />
+          <HemiSphereLight />
+          <SpotLight />
+          <RectAreaLight />
+        </Center>
+        <Perf position="top-left" />
       </Canvas>
     </CanvasWrapper>
   );

@@ -18,6 +18,7 @@ const CanvasWrapper = (props) => {
         left: 0,
         outline: "none",
       }}
+      {...props}
     >
       {children}
     </div>

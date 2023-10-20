@@ -18,7 +18,9 @@ const ExperimentList = () => {
     });
   };
   return (
-    <section className={`${ibm_plex_mono.className} mt-160 w-full grid responsive-grid gap-2`}>
+    <section
+      className={`${ibm_plex_mono.className} mt-160 w-full grid responsive-grid gap-2`}
+    >
       {renderRoutes()}
     </section>
   );

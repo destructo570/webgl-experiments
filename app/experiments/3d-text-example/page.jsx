@@ -9,7 +9,7 @@ import {
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Perf } from "r3f-perf";
-import { getRandomNum, getRandomPosition, getRandomRotation, getRandomValue } from "@/utils/utils";
+import { getRandomPosition, getRandomRotation } from "@/utils/utils";
 import * as THREE from "three";
 
 const torus_geometry = new THREE.TorusGeometry(1, 0.4, 32, 64);

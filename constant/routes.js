@@ -9,4 +9,9 @@ export const ROUTES = [
     route: "basic-light",
     category: CATEGORY.PLAYGROUND,
   },
+  {
+    title: "3D Text",
+    route: "3d-text-example",
+    category: CATEGORY.PLAYGROUND,
+  },
 ];

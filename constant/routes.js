@@ -14,4 +14,9 @@ export const ROUTES = [
     route: "3d-text-example",
     category: CATEGORY.PLAYGROUND,
   },
+  {
+    title: "Galaxy generator",
+    route: "galaxy-generator",
+    category: CATEGORY.PLAYGROUND,
+  },
 ];

@@ -19,4 +19,14 @@ export const ROUTES = [
     route: "galaxy-generator",
     category: CATEGORY.PLAYGROUND,
   },
+  {
+    title: "Macbook portfolio",
+    route: "macbook-portfolio",
+    category: CATEGORY.PLAYGROUND,
+  },
+  {
+    title: "Marble Race",
+    route: "marble-race",
+    category: CATEGORY.PLAYGROUND,
+  },
 ];
